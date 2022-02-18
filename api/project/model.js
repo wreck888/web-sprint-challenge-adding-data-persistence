@@ -11,13 +11,17 @@ async function getProjects() {
     })
 }
 
-function insert(project) {
+async function insert(projects){
+    const result = await db('projects')
+        .insert(projects)
+        .then(([project_id]) => {
     return db('projects')
-      .insert(project)
-      .then(() => {
-        return(project)
-      });
-  }
+        .where('project_id', project_id)
+        .first();
+    });
+    result.project_completed = Boolean(result.project_completed);
+        return result;
+}
 
 module.exports = {
     getProjects,
