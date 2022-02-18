@@ -5,11 +5,9 @@ async function getTasks() {
     const results = await db('tasks as t')
         .join('projects as p', 't.project_id', 'p.project_id')
         .select("t.*", "p.project_name", "p.project_description")
-    
     results.forEach(res => {
         res.task_completed = Boolean(res.task_completed)
     })
-
     return results;
 }
 
@@ -21,7 +19,7 @@ async function insert(task){
         .first();
     });
     result.task_completed = Boolean(result.task_completed);
-    return result;
+        return result;
 }
 
 module.exports = {
